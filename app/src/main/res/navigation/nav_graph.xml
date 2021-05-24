@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_mainFragment_to_favoriteFragment"
             app:destination="@id/favorite_page" />
+        <action
+            android:id="@+id/openMovie"
+            app:destination="@id/infoFragment" />
     </fragment>
     <fragment
         android:id="@+id/favorite_page"
@@ -24,4 +27,8 @@
         android:id="@+id/rating_page"
         android:name="com.geekbrains.gb_movie.View.RatingFragment"
         android:label="RatingFragment" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.geekbrains.gb_movie.View.InfoFragment"
+        android:label="InfoFragment" />
 </navigation>

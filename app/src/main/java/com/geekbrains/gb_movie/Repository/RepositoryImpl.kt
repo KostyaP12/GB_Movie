@@ -4,6 +4,6 @@ import com.geekbrains.gb_movie.Repository.Model.Movie
 import com.geekbrains.gb_movie.Repository.Model.getMovieFromServer
 
 class RepositoryImpl:Repository {
-    override fun getMovieFromLocalServer(): ArrayList<Movie> = getMovieFromServer()
+    override fun getMovieFromLocalServer(): List<Movie> = getMovieFromServer()
 
 }

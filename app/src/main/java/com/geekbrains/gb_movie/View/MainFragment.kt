@@ -8,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
+import androidx.navigation.findNavController
 import com.geekbrains.gb_movie.R
 import com.geekbrains.gb_movie.Repository.Adapters.HorizontalRecyclerAdapter
+import com.geekbrains.gb_movie.Repository.Adapters.MovieFragmentDirections
+import com.geekbrains.gb_movie.Repository.Adapters.OnItemViewClickListener
 import com.geekbrains.gb_movie.Repository.AppState
 import com.geekbrains.gb_movie.Repository.Model.Movie
 import com.geekbrains.gb_movie.ViewModel.MainViewModel
@@ -18,42 +21,44 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
 
-    private lateinit var binding: MainFragmentBinding
-    private lateinit var viewModel: MainViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+    private var _binding: MainFragmentBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: MainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
+    private val movieAdapter by lazy {
+        HorizontalRecyclerAdapter(object : OnItemViewClickListener {
+            override fun onItemClick(movie: Movie) {
+                val action = MovieFragmentDirections.openMovie(movieId = movie.id)
+                requireView().findNavController().navigate(action)
+            }
+        })
+    }
+            override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+            override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getMovieFromLocalSource()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
-    private fun initialisation(movieData:ArrayList<Movie>) {
-        binding.mainRecycler.apply { adapter = HorizontalRecyclerAdapter(movieData) }
-        binding.lookingRecycler.apply { adapter = HorizontalRecyclerAdapter(movieData)}
-        binding.upcomingRecycler.apply { adapter = HorizontalRecyclerAdapter(movieData)}
+            private fun initialisation() {
+        binding.mainRecycler.apply { adapter = movieAdapter }
+        binding.lookingRecycler.apply { adapter = movieAdapter }
+        binding.upcomingRecycler.apply { adapter = movieAdapter }
     }
 
 
-    private fun renderData(appState: AppState) {
+            private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                val movieData = appState.movieData
-                initialisation(movieData)
+                movieAdapter.setMovie(appState.movieData)
+                initialisation()
                 setUpLiveData()
                 binding.loadingPopular.visibility = View.GONE
                 binding.loadingLookingNow.visibility = View.GONE
@@ -70,13 +75,13 @@ class MainFragment : Fragment() {
                 binding.loadingLookingNow.visibility = View.GONE
                 binding.loadingUpComing.visibility = View.GONE
                 Snackbar
-                    .make(binding.mainFragmentView, getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.reload)) { viewModel.getMovieFromLocalSource() }
-                    .show()
+                        .make(binding.mainFragmentView, getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
+                        .setAction(getString(R.string.reload)) { viewModel.getMovieFromLocalSource() }
+                        .show()
             }
         }
     }
-    private fun setUpLiveData() {
+            private fun setUpLiveData() {
         viewModel.liveDataPopular.observe(viewLifecycleOwner, { binding.textView2.text = it })
         viewModel.liveDataNowPlaying.observe(viewLifecycleOwner, { binding.textLookNow.text = it })
         viewModel.liveDataUpComing.observe(viewLifecycleOwner, { binding.textUpComingNow.text = it })
