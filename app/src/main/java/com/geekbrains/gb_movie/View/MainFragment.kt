@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.geekbrains.gb_movie.Constants
 import com.geekbrains.gb_movie.R
 import com.geekbrains.gb_movie.Repository.Adapters.HorizontalRecyclerAdapter
 import com.geekbrains.gb_movie.Repository.Adapters.MovieFragmentDirections
@@ -22,13 +24,14 @@ import com.google.android.material.snackbar.Snackbar
 class MainFragment : Fragment() {
 
     private var _binding: MainFragmentBinding? = null
+    private var bundle: Bundle = Bundle()
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
     private val movieAdapter by lazy {
         HorizontalRecyclerAdapter(object : OnItemViewClickListener {
             override fun onItemClick(movie: Movie) {
-                val action = MovieFragmentDirections.openMovie(movieId = movie.id)
-                requireView().findNavController().navigate(action)
+                bundle.putInt(Constants.BUNDLE_MOVIE_ID, movie.id)
+                findNavController().navigate(R.id.infoFragment, bundle)
             }
         })
     }

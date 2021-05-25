@@ -15,4 +15,4 @@ data class MovieFull(
         val status: String,
         val popularity: Double
 )
-val movieFull = listOf<MovieFull>(MovieFull(1, "Большой куш", "Большой куш", "Большой куш", "Большой куш", "Большой куш", 15.04, 15, 15, 15, 15, "Большой куш", 15.04))
+val getMovieFull = listOf<MovieFull>(MovieFull(1, "Большой куш", "Большой куш", "Большой куш", "Большой куш", "Большой куш", 15.04, 15, 15, 15, 15, "Большой куш", 15.04))

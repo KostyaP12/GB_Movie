@@ -39,7 +39,7 @@ class HorizontalRecyclerAdapter(var onItemViewClickListener: OnItemViewClickList
                 findViewById<TextView>(R.id.textName).text = movie.title
                 findViewById<TextView>(R.id.textReleaseDate).text = movie.release_date
                 setOnClickListener{
-                    onItemViewClickListener?.onItemClick(movie)
+                    onItemViewClickListener.onItemClick(movie)
                 }
             }
         }
