@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_page">
+    <fragment
+        android:id="@+id/home_page"
+        android:name="com.geekbrains.gb_movie.View.MainFragment"
+        android:label="main_fragment"
+        tools:layout="@layout/main_fragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_ratingFragment"
+            app:destination="@id/rating_page" />
+        <action
+            android:id="@+id/action_mainFragment_to_favoriteFragment"
+            app:destination="@id/favorite_page" />
+    </fragment>
+    <fragment
+        android:id="@+id/favorite_page"
+        android:name="com.geekbrains.gb_movie.View.FavoriteFragment"
+        android:label="FavoriteFragment" />
+    <fragment
+        android:id="@+id/rating_page"
+        android:name="com.geekbrains.gb_movie.View.RatingFragment"
+        android:label="RatingFragment" />
+</navigation>
