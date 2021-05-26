@@ -67,23 +67,23 @@ class MainFragment : Fragment() {
                 initialisation()
                 setUpLiveData()
                 binding.apply {
-                    loadingPopular.visibility = View.GONE
-                    loadingLookingNow.visibility = View.GONE
-                    loadingUpComing.visibility = View.GONE
+                    loadingPopular.hide()
+                    loadingLookingNow.hide()
+                    loadingUpComing.hide()
                 }
             }
             is AppState.Loading -> {
                 binding.apply {
-                    loadingPopular.visibility = View.VISIBLE
-                    loadingLookingNow.visibility = View.VISIBLE
-                    loadingUpComing.visibility = View.VISIBLE
+                    loadingPopular.show()
+                    loadingLookingNow.show()
+                    loadingUpComing.show()
                 }
             }
             is AppState.Error -> {
                 binding.apply {
-                    loadingPopular.visibility = View.GONE
-                    loadingLookingNow.visibility = View.GONE
-                    loadingUpComing.visibility = View.GONE
+                    loadingPopular.hide()
+                    loadingLookingNow.hide()
+                    loadingUpComing.hide()
                 }
                 Snackbar
                         .make(binding.mainFragmentView, getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
@@ -100,5 +100,19 @@ class MainFragment : Fragment() {
             liveDataUpComing.observe(viewLifecycleOwner, { binding.textUpComingNow.text = it })
         }
     }
+
+    private fun View.show():View{
+        if (visibility != View.VISIBLE) {
+            visibility = View.VISIBLE
+        }
+        return this
+    }
+    fun View.hide() : View {
+        if (visibility != View.GONE) {
+            visibility = View.GONE
+        }
+        return this
+    }
+
 
 }
