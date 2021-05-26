@@ -3,20 +3,38 @@ package com.geekbrains.gb_movie.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.geekbrains.gb_movie.Repository.AppState
+import com.geekbrains.gb_movie.Repository.Model.MoviePOJO
+import com.geekbrains.gb_movie.Repository.MovieRepository
 import com.geekbrains.gb_movie.Repository.Repository
 import com.geekbrains.gb_movie.Repository.RepositoryImpl
 
-class MainViewModel(
-    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
-    private val repositoryImpl: Repository = RepositoryImpl()
-) : ViewModel() {
+class MainViewModel() : ViewModel() {
+    private val movieRepository = MovieRepository()
 
-    fun getLiveData() = liveDataToObserve
+    private val _observingMoviesPopular = MutableLiveData<MoviePOJO>()
+    fun getObservedMoviesPopular() = _observingMoviesPopular
 
+    private val _observingMoviesLookNow = MutableLiveData<MoviePOJO>()
+    fun getObservedMoviesLookNow() = _observingMoviesLookNow
+
+
+    private val _observingMoviesUpComing = MutableLiveData<MoviePOJO>()
+    fun getObservedMoviesUpComing() = _observingMoviesUpComing
+
+    fun popularMovie() {
+        movieRepository.getPopularMovies(_observingMoviesPopular)
+    }
+
+    fun lookNowMovie() {
+        movieRepository.getLookNowMovies(_observingMoviesLookNow)
+    }
+
+    fun upComingMovie() {
+        movieRepository.getUpComingMovies(_observingMoviesUpComing)
+    }
     val liveDataPopular = MutableLiveData<String>()
     val liveDataNowPlaying = MutableLiveData<String>()
     val liveDataUpComing = MutableLiveData<String>()
-
     init {
         setPopular()
         setNowPlaying()
@@ -33,15 +51,5 @@ class MainViewModel(
 
     private fun setUpComing() {
         liveDataUpComing.value = "Up Coming"
-    }
-
-    fun getMovieFromLocalSource() = getDataFromLocalSource()
-
-    private fun getDataFromLocalSource() {
-        liveDataToObserve.value = AppState.Loading
-        Thread {
-            Thread.sleep(1000)
-            liveDataToObserve.postValue(AppState.Success(repositoryImpl.getMovieFromLocalServer()))
-        }.start()
     }
 }
