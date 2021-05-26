@@ -14,7 +14,6 @@ import com.geekbrains.gb_movie.Repository.RepositoryImpl
 class HorizontalRecyclerAdapter(var onItemViewClickListener: OnItemViewClickListener) :
         RecyclerView.Adapter<HorizontalRecyclerAdapter.MovieViewHolder>() {
 
-    private val repositoryImpl: Repository = RepositoryImpl()
     private var movieData: List<Movie> = listOf()
 
     fun setMovie(data: List<Movie>) {

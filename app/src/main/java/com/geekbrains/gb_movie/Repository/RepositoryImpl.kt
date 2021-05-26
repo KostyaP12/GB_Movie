@@ -8,6 +8,4 @@ import com.geekbrains.gb_movie.Repository.Model.getMovieFull
 class RepositoryImpl:Repository {
     override fun getMovieFromLocalServer(): List<Movie> = getMovieFromServer()
     override fun getMovieInfoFromLocalServer(): List<MovieFull> = getMovieFull
-
-
 }

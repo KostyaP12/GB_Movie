@@ -26,7 +26,9 @@ class MainFragment : Fragment() {
     private var _binding: MainFragmentBinding? = null
     private var bundle: Bundle = Bundle()
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
     private val movieAdapter by lazy {
         HorizontalRecyclerAdapter(object : OnItemViewClickListener {
             override fun onItemClick(movie: Movie) {
@@ -35,7 +37,8 @@ class MainFragment : Fragment() {
             }
         })
     }
-            override fun onCreateView(
+
+    override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -44,39 +47,44 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-            override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getMovieFromLocalSource()
     }
 
-            private fun initialisation() {
+    private fun initialisation() {
         binding.mainRecycler.apply { adapter = movieAdapter }
         binding.lookingRecycler.apply { adapter = movieAdapter }
         binding.upcomingRecycler.apply { adapter = movieAdapter }
     }
 
 
-            private fun renderData(appState: AppState) {
+    private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
                 movieAdapter.setMovie(appState.movieData)
                 initialisation()
                 setUpLiveData()
-                binding.loadingPopular.visibility = View.GONE
-                binding.loadingLookingNow.visibility = View.GONE
-                binding.loadingUpComing.visibility = View.GONE
-
+                binding.apply {
+                    loadingPopular.visibility = View.GONE
+                    loadingLookingNow.visibility = View.GONE
+                    loadingUpComing.visibility = View.GONE
+                }
             }
             is AppState.Loading -> {
-                binding.loadingPopular.visibility = View.VISIBLE
-                binding.loadingLookingNow.visibility = View.VISIBLE
-                binding.loadingUpComing.visibility = View.VISIBLE
+                binding.apply {
+                    loadingPopular.visibility = View.VISIBLE
+                    loadingLookingNow.visibility = View.VISIBLE
+                    loadingUpComing.visibility = View.VISIBLE
+                }
             }
             is AppState.Error -> {
-                binding.loadingPopular.visibility = View.GONE
-                binding.loadingLookingNow.visibility = View.GONE
-                binding.loadingUpComing.visibility = View.GONE
+                binding.apply {
+                    loadingPopular.visibility = View.GONE
+                    loadingLookingNow.visibility = View.GONE
+                    loadingUpComing.visibility = View.GONE
+                }
                 Snackbar
                         .make(binding.mainFragmentView, getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
                         .setAction(getString(R.string.reload)) { viewModel.getMovieFromLocalSource() }
@@ -84,11 +92,13 @@ class MainFragment : Fragment() {
             }
         }
     }
-            private fun setUpLiveData() {
-        viewModel.liveDataPopular.observe(viewLifecycleOwner, { binding.textView2.text = it })
-        viewModel.liveDataNowPlaying.observe(viewLifecycleOwner, { binding.textLookNow.text = it })
-        viewModel.liveDataUpComing.observe(viewLifecycleOwner, { binding.textUpComingNow.text = it })
 
+    private fun setUpLiveData() {
+        viewModel.apply {
+            liveDataPopular.observe(viewLifecycleOwner, { binding.textView2.text = it })
+            liveDataNowPlaying.observe(viewLifecycleOwner, { binding.textLookNow.text = it })
+            liveDataUpComing.observe(viewLifecycleOwner, { binding.textUpComingNow.text = it })
+        }
     }
 
 }
