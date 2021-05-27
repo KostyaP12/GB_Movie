@@ -49,16 +49,15 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
-        viewModel.getMovieFromLocalSource()
     }
 
     private fun initialisation() {
-        binding.mainRecycler.apply { adapter = movieAdapter }
-        binding.lookingRecycler.apply { adapter = movieAdapter }
-        binding.upcomingRecycler.apply { adapter = movieAdapter }
+        binding.apply {
+            mainRecycler.adapter = movieAdapter
+            lookingRecycler.adapter = movieAdapter
+            upcomingRecycler.adapter = movieAdapter
+        }
     }
-
 
     private fun renderData(appState: AppState) {
         when (appState) {
