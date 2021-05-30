@@ -10,6 +10,7 @@ class MainViewModel(
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
     private val repositoryImpl: Repository = RepositoryImpl()
 ) : ViewModel() {
+
     fun getLiveData() = liveDataToObserve
 
     val liveDataPopular = MutableLiveData<String>()
