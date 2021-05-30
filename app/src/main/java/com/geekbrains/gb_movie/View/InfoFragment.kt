@@ -9,23 +9,27 @@ import androidx.lifecycle.ViewModelProvider
 import com.geekbrains.gb_movie.Constants
 import com.geekbrains.gb_movie.R
 import com.geekbrains.gb_movie.Repository.Adapters.MovieFragmentDirections
-import com.geekbrains.gb_movie.Repository.RepositoryImpl
 import com.geekbrains.gb_movie.ViewModel.InfoViewModel
 import com.geekbrains.gb_movie.databinding.InfoFragmentBinding
 import kotlinx.android.synthetic.main.info_fragment.view.*
 
 class InfoFragment : Fragment() {
-    private val repositoryImpl = RepositoryImpl()
-    private val infoViewModel: InfoViewModel by lazy { ViewModelProvider(this).get(InfoViewModel::class.java) }
+    private val infoViewModel: InfoViewModel by lazy {
+        ViewModelProvider(this).get(InfoViewModel::class.java) }
     private var _binding: InfoFragmentBinding? = null
     private val binding: InfoFragmentBinding get() = _binding!!
-    private val movieFragmentDirections = MovieFragmentDirections
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?)
             : View? {
         _binding = InfoFragmentBinding.inflate(inflater, container, false)
-        val movieId = arguments?.getInt(Constants.BUNDLE_MOVIE_ID)
-        val movieFullList = repositoryImpl.getMovieInfoFromLocalServer()
+        openInfoFragment()
+        return binding.root
+    }
+    fun openInfoFragment(){
+        /*val movieId = arguments?.getInt(Constants.BUNDLE_MOVIE_ID)
         for (movieFull in movieFullList) {
             when (movieFull.id) {
                 movieId -> binding.apply {
@@ -40,7 +44,6 @@ class InfoFragment : Fragment() {
                     progressBarInfo.visibility = View.GONE
                 }
             }
-        }
-        return binding.root
+        }*/
     }
 }

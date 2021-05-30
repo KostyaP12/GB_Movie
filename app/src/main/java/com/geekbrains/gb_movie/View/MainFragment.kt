@@ -48,6 +48,7 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initialisation()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -57,39 +58,10 @@ class MainFragment : Fragment() {
             lookingRecycler.adapter = movieAdapter
             upcomingRecycler.adapter = movieAdapter
         }
-    }
-
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                movieAdapter.setMovie(appState.movieData)
-                initialisation()
-                setUpLiveData()
-                binding.apply {
-                    loadingPopular.hide()
-                    loadingLookingNow.hide()
-                    loadingUpComing.hide()
-                }
-            }
-            is AppState.Loading -> {
-                binding.apply {
-                    loadingPopular.show()
-                    loadingLookingNow.show()
-                    loadingUpComing.show()
-                }
-            }
-            is AppState.Error -> {
-                binding.apply {
-                    loadingPopular.hide()
-                    loadingLookingNow.hide()
-                    loadingUpComing.hide()
-                }
-                Snackbar
-                        .make(binding.mainFragmentView, getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
-                        .setAction(getString(R.string.reload)) { viewModel.getMovieFromLocalSource() }
-                        .show()
-            }
-        }
+        setUpLiveData()
+        getPopularMovies()
+        //getLookNowMovies()
+        //getUpComingMovies()
     }
 
     private fun setUpLiveData() {
@@ -100,18 +72,63 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun View.show():View{
+    private fun View.show(): View {
         if (visibility != View.VISIBLE) {
             visibility = View.VISIBLE
         }
         return this
     }
-    fun View.hide() : View {
+
+    fun View.hide(): View {
         if (visibility != View.GONE) {
             visibility = View.GONE
         }
         return this
     }
+
+    private fun getPopularMovies() {
+        binding.loadingPopular.show()
+        viewModel.apply {
+            getObservedMoviesPopular().observe(viewLifecycleOwner, { it ->
+                movieAdapter.clearItems()
+                movieAdapter.addItems(it.results)
+                movieAdapter.notifyDataSetChanged()
+                binding.loadingPopular.hide()
+            })
+            popularMovie()
+        }
+    }
+
+
+    /*private fun getLookNowMovies() {
+        binding.loadingLookingNow.show()
+        viewModel.apply {
+            getObservedMoviesLookNow().observe(viewLifecycleOwner, { it ->
+                movieAdapter.clearItems()
+                it.result.let {
+                    movieAdapter.addItems(it)
+                    movieAdapter.notifyDataSetChanged()
+                    binding.loadingLookingNow.hide()
+                }
+            })
+            lookNowMovie()
+        }
+    }
+
+    private fun getUpComingMovies() {
+        binding.loadingUpComing.show()
+        viewModel.apply {
+            getObservedMoviesUpComing().observe(viewLifecycleOwner, { it ->
+                movieAdapter.clearItems()
+                it.result.let {
+                    movieAdapter.addItems(it)
+                    movieAdapter.notifyDataSetChanged()
+                    binding.loadingUpComing.hide()
+                }
+            })
+            upComingMovie()
+        }
+    }*/
 
 
 }
