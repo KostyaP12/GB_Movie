@@ -11,8 +11,22 @@ class MainViewModel() : ViewModel() {
     private val _observingMoviesPopular = MutableLiveData<MovieResponse>()
     fun getObservedMoviesPopular() = _observingMoviesPopular
 
+    private val _observingMoviesNowPlaying = MutableLiveData<MovieResponse>()
+    fun getObservedMoviesNowPlaying() = _observingMoviesNowPlaying
+
+    private val _observingMoviesUpComing = MutableLiveData<MovieResponse>()
+    fun getObservedMoviesUpComing() = _observingMoviesUpComing
+
     fun popularMovie() {
         movieRepository.getPopularMovies(_observingMoviesPopular)
+    }
+
+    fun nowPlayingMovie() {
+        movieRepository.getNowPlayingMovies(_observingMoviesNowPlaying)
+    }
+
+    fun upComingMovie() {
+        movieRepository.getUpComingMovies(_observingMoviesUpComing)
     }
 
 

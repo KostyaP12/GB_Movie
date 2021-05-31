@@ -24,8 +24,8 @@ class MovieRepository{
         })
     }
 
-    fun getLookNowMovies(_observingMovies: MutableLiveData<MovieResponse>) {
-        apiService.getLookNow(Constants.API_KEY, Constants.LOCALE).enqueue(object :
+    fun getNowPlayingMovies(_observingMovies: MutableLiveData<MovieResponse>) {
+        apiService.getLookNow(Constants.API_KEY, "ru").enqueue(object :
             retrofit2.Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 _observingMovies.value = response.body()
@@ -38,7 +38,7 @@ class MovieRepository{
     }
 
     fun getUpComingMovies(_observingMovies: MutableLiveData<MovieResponse>) {
-        apiService.getUpComing(Constants.API_KEY, Constants.LOCALE).enqueue(object :
+        apiService.getUpComing(Constants.API_KEY, "ru").enqueue(object :
             retrofit2.Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 _observingMovies.value = response.body()

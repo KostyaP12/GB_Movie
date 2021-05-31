@@ -6,20 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.geekbrains.gb_movie.Constants
 import com.geekbrains.gb_movie.R
 import com.geekbrains.gb_movie.Repository.Adapters.HorizontalRecyclerAdapter
-import com.geekbrains.gb_movie.Repository.Adapters.MovieFragmentDirections
 import com.geekbrains.gb_movie.Repository.Adapters.OnItemViewClickListener
-import com.geekbrains.gb_movie.Repository.AppState
 import com.geekbrains.gb_movie.Repository.Model.Movie
 import com.geekbrains.gb_movie.ViewModel.MainViewModel
 import com.geekbrains.gb_movie.databinding.MainFragmentBinding
-import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
 
@@ -29,7 +24,25 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
-    private val movieAdapter by lazy {
+    private val popularMovieAdapter by lazy {
+        HorizontalRecyclerAdapter(object : OnItemViewClickListener {
+            override fun onItemClick(movie: Movie) {
+                bundle.putInt(Constants.BUNDLE_MOVIE_ID, movie.id)
+                findNavController().navigate(R.id.infoFragment, bundle)
+            }
+        })
+    }
+
+    private val nowPlayingMovieAdapter by lazy {
+        HorizontalRecyclerAdapter(object : OnItemViewClickListener {
+            override fun onItemClick(movie: Movie) {
+                bundle.putInt(Constants.BUNDLE_MOVIE_ID, movie.id)
+                findNavController().navigate(R.id.infoFragment, bundle)
+            }
+        })
+    }
+
+    private val upComingMovieAdapter by lazy {
         HorizontalRecyclerAdapter(object : OnItemViewClickListener {
             override fun onItemClick(movie: Movie) {
                 bundle.putInt(Constants.BUNDLE_MOVIE_ID, movie.id)
@@ -54,14 +67,14 @@ class MainFragment : Fragment() {
 
     private fun initialisation() {
         binding.apply {
-            mainRecycler.adapter = movieAdapter
-            lookingRecycler.adapter = movieAdapter
-            upcomingRecycler.adapter = movieAdapter
+            mainRecycler.adapter = popularMovieAdapter
+            lookingRecycler.adapter = nowPlayingMovieAdapter
+            upcomingRecycler.adapter = upComingMovieAdapter
         }
         setUpLiveData()
         getPopularMovies()
-        //getLookNowMovies()
-        //getUpComingMovies()
+        getNowPlayingMovies()
+        getUpComingMovies()
     }
 
     private fun setUpLiveData() {
@@ -90,9 +103,9 @@ class MainFragment : Fragment() {
         binding.loadingPopular.show()
         viewModel.apply {
             getObservedMoviesPopular().observe(viewLifecycleOwner, { it ->
-                movieAdapter.clearItems()
-                movieAdapter.addItems(it.results)
-                movieAdapter.notifyDataSetChanged()
+                popularMovieAdapter.clearItems()
+                popularMovieAdapter.addItems(it.results)
+                popularMovieAdapter.notifyDataSetChanged()
                 binding.loadingPopular.hide()
             })
             popularMovie()
@@ -100,18 +113,18 @@ class MainFragment : Fragment() {
     }
 
 
-    /*private fun getLookNowMovies() {
+    private fun getNowPlayingMovies() {
         binding.loadingLookingNow.show()
         viewModel.apply {
-            getObservedMoviesLookNow().observe(viewLifecycleOwner, { it ->
-                movieAdapter.clearItems()
-                it.result.let {
-                    movieAdapter.addItems(it)
-                    movieAdapter.notifyDataSetChanged()
+            getObservedMoviesNowPlaying().observe(viewLifecycleOwner, { it ->
+                nowPlayingMovieAdapter.clearItems()
+                it.results.let {
+                    nowPlayingMovieAdapter.addItems(it)
+                    nowPlayingMovieAdapter.notifyDataSetChanged()
                     binding.loadingLookingNow.hide()
                 }
             })
-            lookNowMovie()
+            nowPlayingMovie()
         }
     }
 
@@ -119,16 +132,16 @@ class MainFragment : Fragment() {
         binding.loadingUpComing.show()
         viewModel.apply {
             getObservedMoviesUpComing().observe(viewLifecycleOwner, { it ->
-                movieAdapter.clearItems()
-                it.result.let {
-                    movieAdapter.addItems(it)
-                    movieAdapter.notifyDataSetChanged()
+                upComingMovieAdapter.clearItems()
+                it.results.let {
+                    upComingMovieAdapter.addItems(it)
+                    upComingMovieAdapter.notifyDataSetChanged()
                     binding.loadingUpComing.hide()
                 }
             })
             upComingMovie()
         }
-    }*/
+    }
 
 
 }
