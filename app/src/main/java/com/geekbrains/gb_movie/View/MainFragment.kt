@@ -21,8 +21,8 @@ import com.geekbrains.gb_movie.databinding.MainFragmentBinding
 class MainFragment : Fragment() {
 
     private var _binding: MainFragmentBinding? = null
-    private var bundle: Bundle = Bundle()
     private val binding get() = _binding!!
+    private var bundle: Bundle = Bundle()
     private val myBroadcastReceiver: MyBroadcastReceiver = MyBroadcastReceiver()
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)

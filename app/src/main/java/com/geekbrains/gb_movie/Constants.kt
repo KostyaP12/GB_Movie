@@ -10,6 +10,7 @@ object Constants {
     const val popular_movies = "/3/movie/popular"
     const val now_playing_movies = "/3/movie/now_playing"
     const val upcoming_movies = "/3/movie/upcoming"
+    const val top_rating = "/3/movie/top_rated"
 
     @SuppressLint("ConstantLocale")
     val LOCALE: String = java.util.Locale.getDefault().language
