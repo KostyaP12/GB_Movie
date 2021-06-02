@@ -120,7 +120,6 @@ class MainFragment : Fragment() {
                 binding.loadingPopular.hide()
             })
             popularMovie()
-            println(Constants.LOCALE)
         }
     }
 
@@ -154,6 +153,4 @@ class MainFragment : Fragment() {
             upComingMovie()
         }
     }
-
-
 }

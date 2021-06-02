@@ -19,6 +19,7 @@ import com.geekbrains.gb_movie.Repository.Adapters.HorizontalRecyclerAdapter
 import com.geekbrains.gb_movie.Repository.Adapters.OnItemViewClickListener
 import com.geekbrains.gb_movie.Repository.Model.Movie
 import com.geekbrains.gb_movie.Repository.Model.MovieResponse
+import com.geekbrains.gb_movie.Services.TopRatingService
 import com.geekbrains.gb_movie.ViewModel.RatingViewModel
 import com.geekbrains.gb_movie.databinding.MainFragmentBinding
 import com.geekbrains.gb_movie.databinding.RatingFragmentBinding
@@ -55,8 +56,16 @@ class RatingFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?):
             View? {_binding = RatingFragmentBinding.inflate(inflater, container, false)
+            initialization()
+        context?.startService(Intent(context, TopRatingService::class.java))
         return binding.root
     }
+
+    private fun initialization() {
+        binding.loadingTopRating.visibility = View.GONE
+        binding.ratingRecycler.adapter = topRatingMovieAdapter
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -50,18 +50,4 @@ class MovieRepository{
         })
 
     }
-
-    fun getTopRatingMovies(_observingMovies: MutableLiveData<MovieResponse>) {
-        apiService.getUpComing(Constants.API_KEY, "ru").enqueue(object :
-                retrofit2.Callback<MovieResponse> {
-            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                _observingMovies.value = response.body()
-            }
-
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                _observingMovies.value=null
-            }
-        })
-
-    }
 }

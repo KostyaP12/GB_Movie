@@ -9,6 +9,15 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     defaultConfig {
         applicationId "com.geekbrains.gb_movie"
         minSdkVersion 21
@@ -48,6 +57,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     // navigation
     def nav_version = "2.3.5"
