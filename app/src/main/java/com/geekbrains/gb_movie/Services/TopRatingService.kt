@@ -9,15 +9,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.geekbrains.gb_movie.Constants
 import com.geekbrains.gb_movie.Repository.Model.MovieResponse
 import com.geekbrains.gb_movie.Repository.RemoteDataSource.ApiClient
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.MalformedURLException
-import java.net.URL
-import java.util.stream.Collectors
-import javax.net.ssl.HttpsURLConnection
 
 class TopRatingService(name: String = "TopRatingService") : IntentService(name) {
     private val broadcastIntent = Intent("INTENT FILTER")

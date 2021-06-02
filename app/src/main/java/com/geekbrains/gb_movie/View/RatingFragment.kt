@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.geekbrains.gb_movie.Constants
@@ -17,11 +16,11 @@ import com.geekbrains.gb_movie.R
 import com.geekbrains.gb_movie.Receivers.MyBroadcastReceiver
 import com.geekbrains.gb_movie.Repository.Adapters.HorizontalRecyclerAdapter
 import com.geekbrains.gb_movie.Repository.Adapters.OnItemViewClickListener
+import com.geekbrains.gb_movie.Repository.Adapters.VerticalRecyclerAdapter
 import com.geekbrains.gb_movie.Repository.Model.Movie
 import com.geekbrains.gb_movie.Repository.Model.MovieResponse
 import com.geekbrains.gb_movie.Services.TopRatingService
 import com.geekbrains.gb_movie.ViewModel.RatingViewModel
-import com.geekbrains.gb_movie.databinding.MainFragmentBinding
 import com.geekbrains.gb_movie.databinding.RatingFragmentBinding
 
 class RatingFragment : Fragment() {
@@ -34,6 +33,9 @@ class RatingFragment : Fragment() {
     private val movieReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val movieResponse = intent?.getSerializableExtra("movieResponse") as MovieResponse
+            movieResponse.results.let {
+                binding.loadingTopRating.visibility = View.GONE
+            }
             topRatingMovieAdapter.apply {
                 clearItems()
                 addItems(movieResponse.results)
@@ -43,7 +45,7 @@ class RatingFragment : Fragment() {
     }
 
     private val topRatingMovieAdapter by lazy {
-        HorizontalRecyclerAdapter(object : OnItemViewClickListener {
+        VerticalRecyclerAdapter(object : OnItemViewClickListener {
             override fun onItemClick(movie: Movie) {
                 bundle.putInt(Constants.BUNDLE_MOVIE_ID, movie.id)
                 findNavController().navigate(R.id.infoFragment, bundle)
@@ -62,7 +64,7 @@ class RatingFragment : Fragment() {
     }
 
     private fun initialization() {
-        binding.loadingTopRating.visibility = View.GONE
+        binding.loadingTopRating.visibility = View.VISIBLE
         binding.ratingRecycler.adapter = topRatingMovieAdapter
     }
 
@@ -74,5 +76,4 @@ class RatingFragment : Fragment() {
                     .registerReceiver(movieReceiver, IntentFilter("INTENT FILTER"))
         }
     }
-
 }
