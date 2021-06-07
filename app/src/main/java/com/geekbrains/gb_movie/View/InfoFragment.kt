@@ -28,7 +28,7 @@ class InfoFragment : Fragment() {
         val movieFullList = repositoryImpl.getMovieInfoFromLocalServer()
         for (movieFull in movieFullList) {
             when (movieFull.id) {
-                1 -> binding.apply {
+                movieId -> binding.apply {
                     budget.text = movieFull.budget.toString()
                     title.text = movieFull.original_title.toString()
                     poster.setImageResource(R.drawable.poster)
