@@ -3,7 +3,7 @@ package com.geekbrains.gb_movie
 import android.annotation.SuppressLint
 
 object Constants {
-
+    const val SP_ADULT_KEY = "SP_ADULT_KEY"
     const val API_KEY = "f163c46b4a24e208bc4bcc86d267e255"
     const val BUNDLE_MOVIE_ID = "movie_id"
     const val basicURL = "https://api.themoviedb.org"
