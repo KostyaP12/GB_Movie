@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.geekbrains.gb_movie.App
 import com.geekbrains.gb_movie.Constants.API_IMAGE_URL
 import com.geekbrains.gb_movie.R
+import com.geekbrains.gb_movie.Repository.FavoriteRepository
+import com.geekbrains.gb_movie.Repository.FavoriteRepositoryImpl
 import com.geekbrains.gb_movie.Repository.Model.Movie
 import com.geekbrains.gb_movie.Repository.Model.MovieFull
 import com.geekbrains.gb_movie.showSnackBar
@@ -22,6 +25,8 @@ class HorizontalRecyclerAdapter(var onItemViewClickListener: OnItemViewClickList
         RecyclerView.Adapter<HorizontalRecyclerAdapter.MovieViewHolder>() {
 
     private var moviesList = arrayListOf<Movie>()
+    private val favoriteRepository: FavoriteRepository =
+        FavoriteRepositoryImpl(App.getFavoriteDao())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MovieViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.rv_film, parent, false)

@@ -7,10 +7,17 @@ interface FavoriteDao {
     @Query("SELECT * FROM FavoriteEntity")
     fun all(): List<FavoriteEntity>
 
-    @Query("SELECT * FROM FavoriteEntity WHERE title LIKE :title")
-    fun getDataByWord(title: String): List<FavoriteEntity>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Query("SELECT COUNT (id) FROM FavoriteEntity WHERE id LIKE :id")
+    fun find(id: Int): Int
+
+    @Query("DELETE FROM FavoriteEntity WHERE id LIKE :id")
+    fun drop(id: Int): Int
+
+    @Query("SELECT * FROM FavoriteEntity WHERE id LIKE :id")
+    fun getDataById(id: Int): FavoriteEntity
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: FavoriteEntity)
 
     @Update
@@ -18,5 +25,4 @@ interface FavoriteDao {
 
     @Delete
     fun delete(entity: FavoriteEntity)
-
 }
