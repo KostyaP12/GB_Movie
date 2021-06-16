@@ -20,11 +20,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
 class FavoriteAdapter(
-        var onItemViewClickListener: OnItemViewClickListener
+    var onItemViewClickListener: OnItemViewClickListener
 ) : RecyclerView.Adapter<FavoriteAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<MovieFull> = arrayListOf()
-    private val favoriteRepository: FavoriteRepository = FavoriteRepositoryImpl(App.getFavoriteDao())
+    private val favoriteRepository: FavoriteRepository =
+        FavoriteRepositoryImpl(App.getFavoriteDao())
 
 
     fun saveFavoriteToDB(movie: MovieFull) {
@@ -44,12 +45,9 @@ class FavoriteAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
-        return RecyclerItemViewHolder(
-                LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_favorite, parent, false) as View
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = RecyclerItemViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_favorite, parent, false)
+    )
 
     override fun onBindViewHolder(holder: RecyclerItemViewHolder, position: Int) {
         holder.bind(data[position])
@@ -66,9 +64,9 @@ class FavoriteAdapter(
                 findViewById<TextView>(R.id.textReleaseDate).text = movie.release_date.take(4)
                 findViewById<TextView>(R.id.textOverview).text = movie.overview
                 val poster: ImageView = findViewById(R.id.imageMovie)
-                Picasso.get().load("$${Constants.API_IMAGE_URL}${movie.poster_path}")
-                        .placeholder(R.drawable.ic_baseline_image_not_supported_24)
-                        .into(poster)
+                Picasso.get().load("${Constants.API_IMAGE_URL}${movie.poster_path}")
+                    .placeholder(R.drawable.ic_baseline_image_not_supported_24)
+                    .into(poster)
 
                 setOnClickListener {
                     val movie = Movie(
@@ -89,7 +87,7 @@ class FavoriteAdapter(
                         like.tag = R.string.no_like
                     }
                     1 -> {
-                        like.setImageResource(R.drawable.ic_baseline_favorite_24)
+                        like.setImageResource(R.drawable.ic_heart)
                         like.tag = R.string.like
                     }
                 }
@@ -99,26 +97,31 @@ class FavoriteAdapter(
 
                     when (like.tag) {
                         R.string.no_like -> {
-                            like.setImageResource(R.drawable.ic_baseline_favorite_24)
+                            like.setImageResource(R.drawable.ic_heart)
                             like.tag = R.string.like
                             saveFavoriteToDB(movie)
                             snackbar =
-                                    showSnackBar(R.string.add_to_favorites, Snackbar.LENGTH_SHORT)
+                                showSnackBar(R.string.add_to_favorites, Snackbar.LENGTH_SHORT)
                         }
                         else -> {
                             like.setImageResource(R.drawable.ic_sharp_favorite_border_24)
                             like.tag = R.string.no_like
                             deleteFavoriteFromDB(movie.id)
                             snackbar =
-                                    showSnackBar(R.string.remove_from_favorites, Snackbar.LENGTH_SHORT)
+                                showSnackBar(R.string.remove_from_favorites, Snackbar.LENGTH_SHORT)
                         }
                     }
                     @SuppressLint("InflateParams") val customSnackView: View =
-                            LayoutInflater.from(context).inflate(R.layout.rounded, null)
+                        LayoutInflater.from(context).inflate(R.layout.rounded, null)
                     snackbar.view.setBackgroundColor(Color.TRANSPARENT)
                     val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
 
-                    snackbarLayout.setPadding(R.dimen._20sdp, R.dimen._20sdp, R.dimen._20sdp, R.dimen._20sdp)
+                    snackbarLayout.setPadding(
+                        R.dimen._20sdp,
+                        R.dimen._20sdp,
+                        R.dimen._20sdp,
+                        R.dimen._20sdp
+                    )
                     snackbarLayout.addView(customSnackView, 0)
                     snackbar.show()
                 }

@@ -63,7 +63,7 @@ class HorizontalRecyclerAdapter(var onItemViewClickListener: OnItemViewClickList
                         itemLike.tag = R.string.no_like
                     }
                     1 -> {
-                        itemLike.setImageResource(R.drawable.ic_baseline_favorite_24)
+                        itemLike.setImageResource(R.drawable.ic_heart)
                         itemLike.tag = R.string.like
                     }
                 }
@@ -73,7 +73,7 @@ class HorizontalRecyclerAdapter(var onItemViewClickListener: OnItemViewClickList
 
                     when (itemLike.tag) {
                         R.string.no_like -> {
-                            itemLike.setImageResource(R.drawable.ic_baseline_favorite_24)
+                            itemLike.setImageResource(R.drawable.ic_heart)
                             itemLike.tag = R.string.like
                             saveFavoriteToDB(
                                     MovieFull(

@@ -64,8 +64,9 @@ class FavoriteFragment : Fragment() {
                 }
                 favoritesViewModel.favoriteLiveData.observe(viewLifecycleOwner, {
                     renderData(it)
-                    favoriteAdapter.notifyDataSetChanged()
                 })
+                    favoriteAdapter.notifyDataSetChanged()
+
                 favoritesViewModel.getAllFavorite()
             }
         }
@@ -75,14 +76,11 @@ class FavoriteFragment : Fragment() {
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                binding.favoriteRecycler.visibility = View.VISIBLE
                 favoriteAdapter.setData(appState.movieData)
             }
             is AppState.Loading -> {
-                binding.favoriteRecycler.visibility = View.GONE
             }
             is AppState.Error -> {
-                binding.favoriteRecycler.visibility = View.VISIBLE
                 favoritesViewModel.getAllFavorite()
             }
         }
