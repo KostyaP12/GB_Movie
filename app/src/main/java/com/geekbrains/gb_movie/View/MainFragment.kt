@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.geekbrains.gb_movie.Constants
 import com.geekbrains.gb_movie.R
+import com.geekbrains.gb_movie.Receivers.MyBroadcastReceiver
 import com.geekbrains.gb_movie.Repository.Adapters.HorizontalRecyclerAdapter
 import com.geekbrains.gb_movie.Repository.Adapters.OnItemViewClickListener
 import com.geekbrains.gb_movie.Repository.Model.Movie
@@ -19,8 +21,9 @@ import com.geekbrains.gb_movie.databinding.MainFragmentBinding
 class MainFragment : Fragment() {
 
     private var _binding: MainFragmentBinding? = null
-    private var bundle: Bundle = Bundle()
     private val binding get() = _binding!!
+    private var bundle: Bundle = Bundle()
+    private val myBroadcastReceiver: MyBroadcastReceiver = MyBroadcastReceiver()
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
@@ -66,15 +69,23 @@ class MainFragment : Fragment() {
     }
 
     private fun initialisation() {
-        binding.apply {
-            mainRecycler.adapter = popularMovieAdapter
-            lookingRecycler.adapter = nowPlayingMovieAdapter
-            upcomingRecycler.adapter = upComingMovieAdapter
+        when (myBroadcastReceiver.checkInternet(requireContext())) {
+            false -> {
+                Toast.makeText(requireContext(), "Нет соединения с интернетом", Toast.LENGTH_LONG).show()
+            }
+            true ->{
+                binding.apply {
+                    mainRecycler.adapter = popularMovieAdapter
+                    lookingRecycler.adapter = nowPlayingMovieAdapter
+                    upcomingRecycler.adapter = upComingMovieAdapter
+                }
+                setUpLiveData()
+                getPopularMovies()
+                getNowPlayingMovies()
+                getUpComingMovies()
+            }
         }
-        setUpLiveData()
-        getPopularMovies()
-        getNowPlayingMovies()
-        getUpComingMovies()
+
     }
 
     private fun setUpLiveData() {
@@ -142,6 +153,4 @@ class MainFragment : Fragment() {
             upComingMovie()
         }
     }
-
-
 }

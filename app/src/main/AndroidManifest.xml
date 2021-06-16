@@ -19,6 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".Receivers.MyBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.CONNECTIVITY_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".Services.TopRatingService"/>
     </application>
 
 </manifest>

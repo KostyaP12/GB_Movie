@@ -24,4 +24,10 @@ interface ApiService {
         @Query("api_key") key: String,
         @Query("language") lang: String
     ):Call<MovieResponse>
+
+    @GET(Constants.top_rating)
+    fun getTopRating(
+            @Query("api_key") key: String,
+            @Query("language") lang: String
+    ):Call<MovieResponse>
 }

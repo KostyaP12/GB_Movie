@@ -26,7 +26,8 @@
     <fragment
         android:id="@+id/rating_page"
         android:name="com.geekbrains.gb_movie.View.RatingFragment"
-        android:label="RatingFragment" />
+        android:label="RatingFragment" >
+    </fragment>
     <fragment
         android:id="@+id/infoFragment"
         android:name="com.geekbrains.gb_movie.View.InfoFragment"
