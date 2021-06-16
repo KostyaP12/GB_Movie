@@ -11,6 +11,7 @@ object Constants {
     const val now_playing_movies = "/3/movie/now_playing"
     const val upcoming_movies = "/3/movie/upcoming"
     const val top_rating = "/3/movie/top_rated"
+    const val API_IMAGE_URL = "https://image.tmdb.org/t/p/w400"
 
     @SuppressLint("ConstantLocale")
     val LOCALE: String = java.util.Locale.getDefault().language

@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.geekbrains.gb_movie.Constants
 import com.geekbrains.gb_movie.R
 import com.geekbrains.gb_movie.Repository.Model.Movie
+import com.squareup.picasso.Picasso
 import java.util.ArrayList
 
 class VerticalRecyclerAdapter(var onItemViewClickListener: OnItemViewClickListener) :
@@ -36,7 +38,9 @@ class VerticalRecyclerAdapter(var onItemViewClickListener: OnItemViewClickListen
 
         fun bindMovie(movie: Movie) {
             itemView.apply {
-                findViewById<ImageView>(R.id.imageMovie).setImageResource(R.drawable.poster)
+                val poster: ImageView = findViewById(R.id.imageMovie)
+                Picasso.get().load("${Constants.API_IMAGE_URL}${movie.poster_path}")
+                    .placeholder(R.drawable.ic_baseline_image_not_supported_24).into(poster)
                 findViewById<TextView>(R.id.textName).text = movie.title
                 findViewById<TextView>(R.id.textReleaseDate).text = movie.release_date
                 setOnClickListener{
