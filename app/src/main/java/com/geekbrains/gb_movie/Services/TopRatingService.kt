@@ -31,7 +31,7 @@ class TopRatingService(name: String = "TopRatingService") : IntentService(name) 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 response.body()?.let {
                     sendBack(result = response.body()!!)
-                    println(response.body())
+
                 }
             }
 
