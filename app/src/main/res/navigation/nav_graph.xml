@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_home_page_to_settingsFragment"
             app:destination="@id/setting_page" />
+        <action
+            android:id="@+id/action_home_page_to_contactsFragment"
+            app:destination="@id/navigation_contacts" />
     </fragment>
     <fragment
         android:id="@+id/favorite_page"
@@ -39,4 +42,8 @@
         android:id="@+id/setting_page"
         android:name="com.geekbrains.gb_movie.View.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/navigation_contacts"
+        android:name="com.geekbrains.gb_movie.View.ContactsFragment"
+        android:label="ContactsFragment" />
 </navigation>

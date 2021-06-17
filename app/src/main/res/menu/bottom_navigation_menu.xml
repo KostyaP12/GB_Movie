@@ -21,4 +21,10 @@
         android:icon="@drawable/ic_settings"
         android:title="@string/settings"
         />
+    <item
+        android:id="@+id/navigation_contacts"
+        android:enabled="true"
+        android:icon="@drawable/ic_telephone"
+        android:title="@string/title_contacts" />
+
 </menu>

@@ -17,4 +17,6 @@
     <string name="adult_content">Взрослый контент</string>
     <string name="add_to_favorites">Movie added to favorites</string>
     <string name="remove_from_favorites"><![CDATA[>Movie removed from favorites]]></string>
+    <string name="title_contacts">Contacts</string>
+    <string name="contacts">Access to contacts is prohibited</string>
 </resources>
